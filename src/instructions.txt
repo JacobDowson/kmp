@@ -1,0 +1,7 @@
+1. Run the ActiveMQ Broker (activemq start)
+
+2. Run the Subscriber (BioLoggerSubscriber.java)
+
+3. Run the RMI Server (BioServerMain.java)
+
+4. Run the Client (BioClient.java)

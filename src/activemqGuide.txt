@@ -1,0 +1,34 @@
+Option 1: Run It with Full Path (Quickest)
+If you downloaded and unzipped ActiveMQ to something like:
+
+makefile
+Copy
+Edit
+C:\Tools\activemq\apache-activemq-6.1.6
+Then run this in PowerShell:
+
+powershell
+Copy
+Edit
+& 'C:\Tools\activemq\apache-activemq-6.1.6\bin\activemq.bat' start
+✅ That should launch ActiveMQ with no need to change your environment variables.
+
+Option 2: Add ActiveMQ to System PATH (Optional, long-term fix)
+Open Start Menu > Environment Variables
+
+Under System variables, find Path, click Edit
+
+Add:
+
+makefile
+Copy
+Edit
+C:\Tools\activemq\apache-activemq-6.1.6\bin
+Click OK → OK → Restart PowerShell or IntelliJ terminal
+
+Then just run:
+
+powershell
+Copy
+Edit
+activemq start
