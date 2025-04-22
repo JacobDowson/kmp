@@ -1,3 +1,5 @@
+basic setup for logger functionality
+
 1. Run the ActiveMQ Broker (activemq start)
 
 2. Run the Subscriber (BioLoggerSubscriber.java)

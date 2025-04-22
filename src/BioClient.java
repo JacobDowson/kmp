@@ -1,33 +1,58 @@
-// Required for connecting to the RMI registry on the server
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.Scanner;
 
 public class BioClient {
     public static void main(String[] args) {
         try {
-            // Locate the RMI registry running on localhost + port 1099
-            // This is how the client discovers remote services that have been registered
+            // locate the RMI registry running on localhost + port 1099
             Registry registry = LocateRegistry.getRegistry("localhost", 1099);
 
-            // Look up the remote object by the name it was registered under
+            // look up the remote object by the name it was registered under
             BioService service = (BioService) registry.lookup("BioService");
 
-            // The client adds/updates a bio entry remotely
-            System.out.println("Adding bio for mark.jackson...");
-            service.updateBio("mark.jackson", "Mark Jackson is a Digital Strategist based in London.");
+            Scanner scanner = new Scanner(System.in);
+            boolean running = true;
 
-            // The client then requests the bio that was just added
-            System.out.println("Requesting bio we added:");
-            System.out.println(service.getBio("mark.jackson"));
+            //loop using boolean to create a basic ui
+            while (running) {
+                System.out.println("\n=== BioClient Menu ===");
+                System.out.println("1. Read Bio");
+                System.out.println("2. Add/Update Bio");
+                System.out.println("0. Exit");
+                System.out.print("Choose an option: ");
+                String choice = scanner.nextLine();
 
-            // The client attempts to retrieve a bio for a name that doesn't exist
-            System.out.println("\nRequesting Non-existent Bio:");
-            System.out.println(service.getBio("nobody"));
+                switch (choice) {
+                    case "1":
+                        System.out.print("Enter name to read: ");
+                        String nameToRead = scanner.nextLine();
+                        String bio = service.getBio(nameToRead);
+                        System.out.println("Bio: " + bio);
+                        break;
 
-            // Catch any exception that occurs during remote communication
-            // This includes RemoteException, NotBoundException, or other possible failures
+                    case "2":
+                        System.out.print("Enter name to update: ");
+                        String nameToUpdate = scanner.nextLine();
+                        System.out.print("Enter new bio: ");
+                        String newBio = scanner.nextLine();
+                        service.updateBio(nameToUpdate, newBio);
+                        System.out.println("Bio updated.");
+                        break;
+
+                    case "0":
+                        running = false;
+                        System.out.println("Exiting...");
+                        break;
+
+                    default:
+                        System.out.println("Invalid choice. Try again.");
+                        break;
+                }
+            }
+
+            scanner.close();
         } catch (Exception e) {
-            // Print the full stack trace to help debug issues
             e.printStackTrace();
         }
     }

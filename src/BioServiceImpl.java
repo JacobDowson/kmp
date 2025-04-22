@@ -17,30 +17,30 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 // Server-side implementation of the BioService interface
 public class BioServiceImpl extends UnicastRemoteObject implements BioService {
 
-    // In-memory "database" to store bios
+    // "database" to store bios (in-memory for now)
     private final Map<String, String> bios = new HashMap<>();
 
-    // Constructor sets up the remote object (via UnicastRemoteObject)
+    // constructor sets up the remote object
     protected BioServiceImpl() throws RemoteException {
         super();
     }
 
-    // Returns the bio for a given name or a default message
+    // returns the bio for a given name or a default message
     @Override
     public String getBio(String name) {
         return bios.getOrDefault(name, "No biography found.");
     }
 
-    // Adds or updates a bio for a given name
+    // adds or updates a bio for a given name
     @Override
     public void updateBio(String name, String bio) {
         bios.put(name, bio);
         System.out.println("Updated bio for: " + name);
 
-        //Send JMS message via ActiveMQ
+        //send JMS message via activeMQ
         try {
 
-            // connect to the ActiveMQ broker
+            // connect to the activeMQ broker
             ConnectionFactory factory = new ActiveMQConnectionFactory("tcp://localhost:61616");
             Connection connection = factory.createConnection();
             connection.start();

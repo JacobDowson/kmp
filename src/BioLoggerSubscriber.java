@@ -12,21 +12,21 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 public class BioLoggerSubscriber {
     public static void main(String[] args) {
         try {
-            // Connect to the same broker
+            //connect to the same broker
             ConnectionFactory factory = new ActiveMQConnectionFactory("tcp://localhost:61616");
             Connection connection = factory.createConnection();
             connection.start();
 
-            // Create session and topic
+            // create session and topic
             Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
             Topic topic = session.createTopic("BioUpdatesTopic");
 
-            // Create a message consumer (the subscriber)
+            // create a message consumer (the subscriber)
             MessageConsumer consumer = session.createConsumer(topic);
 
             System.out.println("Logger is now listening for bio update messages...");
 
-            // Listener waits for messages and prints them
+            // listener waits for messages and prints them
             consumer.setMessageListener(message -> {
                 if (message instanceof TextMessage) {
                     try {
@@ -37,9 +37,6 @@ public class BioLoggerSubscriber {
                     }
                 }
             });
-
-            // Keep the app running so it can keep listening
-            // (You can press stop in IntelliJ to exit)
         } catch (Exception e) {
             e.printStackTrace();
         }
